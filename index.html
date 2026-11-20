@@ -1,348 +1,169 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#081120"><meta name="referrer" content="no-referrer">
-<meta name="description" content="ナブラ演算子ゲーム。スマホ・Chromebook対応。CPU・同じ端末での2人・オンライン対戦。">
-<title>∇ NABLA ARENA — ナブラ演算子ゲーム</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#091324">
+<title>NABLA ARENA V3</title>
 <style>
-:root{color-scheme:dark;--bg:#07101f;--panel:#101d32;--panel2:#18273f;--line:#2a3e56;--white:#edf8ff;--sub:#a1b4cc;--cyan:#4bdbe4;--cyan2:#70baff;--violet:#ad9eff;--pink:#f3a9b3;--good:#9de6b9;--red:#f18896}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 15% -10%,#1a3960 0,transparent 40%),radial-gradient(ellipse at 95% 4%,#2e244b 0,transparent 30%),var(--bg);color:var(--white);font:14px/1.5 system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;min-height:100vh}
-button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}button:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}[hidden]{display:none!important}
-.container{max-width:1480px;margin:0 auto;padding:0 clamp(12px,3vw,34px)}.header{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #ffffff18}.brand{display:flex;align-items:center;gap:12px}.brand-crest{height:46px;width:46px;display:grid;place-items:center;border-radius:13px;font:800 31px Georgia,serif;background:linear-gradient(135deg,var(--cyan),#7182ff);color:#081627;box-shadow:0 6px 25px #4bdbe440}.brand strong{display:block;font-size:17px;letter-spacing:.14em;white-space:nowrap}.brand em{font-style:normal;color:var(--cyan)}.brand small{display:block;font-size:9px;letter-spacing:.14em;color:var(--sub)}.header-actions{display:flex;gap:7px;flex-wrap:wrap}.btn{background:#1a2a42;border:1px solid #435571;color:var(--white);padding:9px 13px;border-radius:10px;min-height:40px;font-weight:730;transition:background .12s,transform .12s}.btn:hover:not(:disabled){background:#29405d;transform:translateY(-1px)}.btn.quiet{background:transparent;border-color:#364760}.btn.primary{color:#082030;background:linear-gradient(125deg,#56dfe5,#8bb9ff);border:0}.btn.mini{padding:6px 9px;min-height:32px;font-size:11px}.btn.pass{border-color:#865667;color:#ffc7d0}.btn.full{width:100%}
-.hero{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:30px 0 24px}.kicker{font-size:10px;color:var(--cyan);letter-spacing:.24em;font-weight:850}.hero h1{margin:4px 0 8px;font-size:clamp(24px,3.2vw,38px);line-height:1.25;letter-spacing:.015em}.hero h1 strong{color:var(--cyan)}.hero p{color:var(--sub);font-size:12px;margin:0}.hero-status{display:flex;align-items:center;gap:9px;border:1px solid #295370;background:#0e283d;border-radius:999px;padding:10px 14px;color:#d4eefa;font-weight:700;font-size:12px;flex-shrink:0}.status-pulse{height:9px;width:9px;border-radius:50%;background:var(--good);box-shadow:0 0 0 4px #91f5bd18}.online-banner{border:1px solid #3b6480;background:#112b42;border-radius:14px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.online-mini{font-size:9px;letter-spacing:.14em;color:var(--cyan);font-weight:800;margin-right:8px}.online-banner strong{font-size:23px;letter-spacing:.18em;margin-right:8px}.online-detail{font-size:11px;color:var(--sub)}.banner-actions{display:flex;gap:7px;flex-wrap:wrap}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 335px;gap:18px;align-items:start}.arena{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(125deg,#122035,#0e1a2d 80%);box-shadow:0 26px 60px #0004}.player-side{padding:18px 22px 21px}.player-side.top{background:linear-gradient(180deg,#39243539,transparent 90%)}.player-side.bottom{background:linear-gradient(0deg,#124b5230,transparent 90%)}.player-side.turn-active{box-shadow:inset 0 0 0 1px #4bdbe426}.player-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px}.player-ident{display:flex;align-items:center;gap:10px}.player-ident small{font-size:9px;letter-spacing:.16em;color:var(--sub);font-weight:800}.player-ident h2{margin:1px 0;font-size:15px}.avatar{width:41px;height:41px;border-radius:12px;display:grid;place-items:center;font:700 23px Georgia,serif;border:1px solid #465e80}.avatar.other{background:#433044;color:#f7b1b4}.avatar.self{background:#17434f;color:#8af0ee}.player-right{display:flex;gap:11px;align-items:center}.phase{padding:5px 8px;color:var(--sub);border:1px solid #34475e;background:#122039;border-radius:50px;font-size:10px;white-space:nowrap}.phase.now{color:#7cf1e9;border-color:#3f8c91;background:#163e46}.dim{display:flex;align-items:center;gap:8px}.dim span{font-size:9px;color:var(--sub);letter-spacing:.08em}.dim strong{font-size:22px}.basis-board{min-height:138px;display:flex;align-items:center;align-content:center;gap:10px;flex-wrap:wrap;background:#08162a91;border-radius:14px;border:1px dashed #506782;padding:14px;transition:.16s}.basis-board.actionable{cursor:pointer;border-color:var(--cyan);box-shadow:inset 0 0 0 1px #4bdbe433}.basis-card{min-width:96px;max-width:100%;height:95px;border:1px solid #668ba5;background:linear-gradient(135deg,#213c55,#152b42);border-radius:11px;color:var(--white);padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;overflow:hidden}.top .basis-card{background:linear-gradient(135deg,#443546,#2b2a3d);border-color:#8c7189}.basis-card strong{font:italic 29px Georgia,'Times New Roman',serif;white-space:nowrap}.basis-card small{font-size:9px;letter-spacing:.1em;color:var(--sub)}.basis-card.actionable{cursor:pointer;border-color:#62e3f0;box-shadow:0 0 0 2px #62e3f027}.basis-card.actionable:hover{transform:translateY(-3px)}.empty-board{width:100%;text-align:center;color:var(--sub)}.opponent-cards{font-size:11px;color:var(--sub);text-align:right;margin-top:10px}.divider-line{padding:11px 18px;border-block:1px solid #334861;background:#091627;display:flex;align-items:center;justify-content:space-between;gap:10px}.divider-line span{font-size:9px;color:var(--sub);letter-spacing:.08em;white-space:nowrap}.divider-line b{color:var(--cyan)}.divider-line strong{font-size:12px;text-align:center;color:#c8f2f1}.hand{border-top:1px solid #34475e;background:linear-gradient(180deg,#142740,#142238);padding:19px 20px 22px}.section-head{display:flex;align-items:start;justify-content:space-between;gap:12px}.section-head small{font-size:10px;font-weight:800;letter-spacing:.17em;color:var(--cyan)}.section-head h2{margin:2px 0;font-size:17px}.section-head p{color:var(--sub);font-size:11px;margin:2px 0 13px}.hand-count{border:1px solid #436481;border-radius:40px;padding:5px 10px;font-size:11px;white-space:nowrap}.cards{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 15px;min-height:155px;scrollbar-color:#456b88 transparent}.operation-card{width:132px;min-height:152px;flex:0 0 132px;text-align:left;color:var(--white);background:linear-gradient(155deg,#294563,#1a2d49);border:1px solid #597897;border-radius:13px;padding:12px;display:flex;flex-direction:column;align-items:start;justify-content:space-between;gap:4px}.operation-card.defense{background:linear-gradient(155deg,#37375e,#222e49)}.operation-card.summon{background:linear-gradient(155deg,#24524b,#192f43)}.operation-card.selected{border:2px solid var(--cyan);box-shadow:0 0 0 2px #4bdbe438;transform:translateY(-3px)}.operation-card .number{font-size:9px;color:#b5cfe4}.operation-card .symbol{font:600 25px Georgia,serif;white-space:nowrap}.operation-card .card-title{font-size:12px;font-weight:800}.operation-card .card-description{font-size:10px;color:#b3cae0}.hand-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}.hand-actions>div{flex:1;min-width:190px;color:#bdd0df;font-size:11px}.hand-actions .btn{min-width:105px}.game-hint{padding:14px 5px 20px;font-size:10px;color:#879bb2}.game-hint span{color:#bdd3e1}
-.sidebar{display:flex;flex-direction:column;gap:15px}.sidepanel{border:1px solid var(--line);border-radius:17px;background:linear-gradient(135deg,#16263d,#101c2e);padding:18px}.panel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.panel-top h2{font-size:14px;margin:0}.panel-icon{font-size:19px;color:var(--cyan)}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stats>div{border:1px solid #354c65;background:#0b192c;border-radius:10px;padding:11px;min-height:65px}.stats small{display:block;font-size:10px;color:var(--sub)}.stats strong{font-size:16px;display:block;margin-top:3px}.mode-descriptor{margin-top:12px;font-size:11px;color:var(--sub)}.history-panel{min-height:300px}.sidebar-sub{font-size:11px;color:var(--sub);margin:0 0 13px}.history{overflow-y:auto;max-height:650px;display:flex;flex-direction:column;gap:11px;scrollbar-color:#476887 transparent}.empty-log{font-size:12px;color:var(--sub)}.log-entry{border-left:3px solid #637f99;padding:9px 10px;background:#0c1b2f;border-radius:0 9px 9px 0;font-size:11px;overflow-wrap:anywhere}.log-entry.play{border-color:var(--cyan)}.log-entry.draw{border-color:var(--violet)}.log-entry.end{border-color:var(--good)}.log-heading{display:flex;justify-content:space-between;gap:6px;align-items:center;font-weight:850}.log-heading small{font-size:9px;color:var(--sub);white-space:nowrap}.log-summary{color:#cbd8e8;margin-top:5px;line-height:1.6}.log-entry details{margin-top:7px}.log-entry summary{color:#80d7e7;cursor:pointer;font-size:10px}.steps{padding:9px;margin-top:6px;border:1px solid #2b435c;border-radius:7px;background:#091729;color:#cdeaf4;font-size:11px;line-height:1.7;white-space:pre-wrap;font-family:ui-monospace,"Hiragino Kaku Gothic ProN",monospace}.guide{display:grid;grid-template-columns:30px 1fr;row-gap:16px}.guide>span{color:var(--cyan);font-weight:850;font-size:12px}.guide strong{font-size:11px}.guide p{margin:3px 0 0;font-size:10px;color:var(--sub)}.footer{padding:22px 0 32px;font-size:10px;color:#91a6ba}
-.modal-backdrop{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:15px;background:#020813d7;backdrop-filter:blur(7px)}.modal-backdrop.shown{display:flex}.modal{width:min(560px,100%);max-height:min(92dvh,850px);overflow:auto;padding:28px;background:linear-gradient(145deg,#1f3250,#0f1e34);border:1px solid #536d89;border-radius:22px;box-shadow:0 30px 100px #000a}.modal-logo{font:800 58px Georgia,serif;color:var(--cyan);text-align:center}.modal h2{font-size:25px;margin:8px 0}.modal h3{font-size:14px;margin:14px 0 8px}.modal p,.modal li{font-size:12px;color:#c2d3e4;line-height:1.75}.modal-intro{text-align:center}.modal-buttons{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0 10px}.modal-buttons .btn{flex:1;min-width:115px;min-height:45px}.modal label{display:block;font-weight:750;font-size:12px;margin:15px 0 7px}.modal input{width:100%;padding:13px 12px;border-radius:10px;border:1px solid #5b7490;background:#0b1b30;color:var(--white);font-size:18px;letter-spacing:.1em}.modal-note{font-size:11px;color:#96aec5!important}.room-code-display{font-size:40px;font-weight:900;letter-spacing:.25em;text-align:center;color:var(--cyan);margin:17px 0}.modal table{width:100%;border-collapse:collapse;font-size:11px}.modal th,.modal td{padding:9px 5px;text-align:left;border-bottom:1px solid #40516a}.modal th{color:#aff2f0}.modal td:last-child{text-align:right;font-variant-numeric:tabular-nums}.close-row{display:flex;justify-content:flex-end}.notice{padding:10px 12px;border-left:3px solid var(--cyan);background:#112b42;color:#d6eaf5;border-radius:6px;font-size:11px;margin:12px 0}.toast{position:fixed;z-index:150;bottom:25px;left:50%;transform:translate(-50%,25px);pointer-events:none;padding:11px 18px;background:#203955;border:1px solid #6f9ab7;border-radius:12px;max-width:calc(100% - 26px);text-align:center;opacity:0;transition:.22s;font-size:12px}.toast.shown{opacity:1;transform:translate(-50%,0)}
-@media(max-width:1100px){.layout{grid-template-columns:minmax(0,1fr)}.sidebar{display:grid;grid-template-columns:1fr 1.2fr}.sidebar .sidepanel:last-child{grid-column:1/-1}.history{max-height:480px}}
-@media(max-width:640px){.header{min-height:68px}.brand-crest{height:37px;width:37px;font-size:27px}.brand strong{font-size:12px;letter-spacing:.1em}.brand small{font-size:8px}.header-actions .btn{padding:7px 8px;font-size:11px;min-height:34px}.header-actions{gap:3px}.hero{align-items:start;flex-direction:column;padding:20px 1px;gap:12px}.hero h1{font-size:26px}.hero p{font-size:11px}.hero-status{font-size:10px}.player-side{padding:13px}.basis-board{min-height:110px;padding:10px;gap:7px}.basis-card{min-width:75px;height:78px;padding:8px}.basis-card strong{font-size:25px}.player-ident h2{font-size:12px}.dim span{display:none}.dim strong{font-size:18px}.phase{font-size:9px}.divider-line{padding:10px}.divider-line span{font-size:8px}.divider-line strong{font-size:11px}.hand{padding:15px 12px}.operation-card{flex-basis:117px;width:117px;min-height:143px}.operation-card .symbol{font-size:24px}.sidebar{grid-template-columns:1fr}.sidebar .sidepanel:last-child{grid-column:auto}.modal{padding:19px}.modal h2{font-size:22px}.online-banner strong{font-size:19px}.online-detail{display:block;margin:2px 0}.banner-actions{width:100%}.banner-actions .btn{flex:1}.stats strong{font-size:15px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-/* Neutral basis tiles stay readable before selecting an operator. */
-.basis-card:disabled{opacity:1;cursor:default}
-
+:root{color-scheme:dark;--bg:#081221;--panel:#101f35;--raised:#172a44;--border:#304866;--ink:#ecf5ff;--muted:#a1b4ce;--cyan:#69e7ed;--blue:#8cb7ff;--gold:#f4d48b;--red:#ff9eaa;--green:#90f4c4}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#1a3859,transparent 55%),linear-gradient(#091324,#07101b);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.app{max-width:1080px;margin:auto;padding:15px 14px 45px}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0 15px}.brand{font-size:clamp(21px,4.5vw,29px);font-weight:900;letter-spacing:.055em}.brand b{color:var(--cyan)}.small{font-size:12px;color:var(--muted)}.top-actions{display:flex;align-items:center;gap:8px}.btn{background:#1c304d;border:1px solid #4b6b8c;color:var(--ink);padding:10px 13px;min-height:42px;border-radius:11px;font-weight:730;transition:background .16s}.btn:hover:not(:disabled){background:#2c4567}.btn.primary{background:linear-gradient(110deg,#5ce6e6,#8eafff);border:0;color:#09213a}.btn.subtle{background:transparent;border-color:#3d5574}.btn.danger{color:#ffd4d9;border-color:#8f5560}.btn.full{width:100%}.btn.mini{font-size:12px;padding:7px 9px;min-height:34px}.grid-menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}.hero{border:1px solid #2e4e70;background:linear-gradient(130deg,#122744,#102039);border-radius:18px;padding:24px;margin:10px 0}.hero h1{font-size:clamp(25px,5vw,39px);margin:0 0 12px;line-height:1.2}.hero p{color:var(--muted);line-height:1.7}.menu-tile{min-height:170px;border-radius:17px;padding:18px;text-align:left;background:linear-gradient(160deg,#182d49,#112138);border:1px solid #3c5977;color:var(--ink)}.menu-tile strong{display:block;font-size:22px;margin:10px 0}.menu-tile .emoji{font-size:29px}.menu-tile p{font-size:13px;line-height:1.6;color:var(--muted);margin:0}.meta-line{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0;color:var(--muted);font-size:12px}.chip{border:1px solid var(--border);background:#152940;border-radius:999px;padding:6px 10px;color:var(--ink)}.board-wrap{display:grid;gap:12px}.side{border:1px solid #33516f;background:linear-gradient(135deg,#13243d,#101d32);border-radius:19px;padding:14px;box-shadow:0 8px 30px #0002}.side.opponent{border-color:#65455a}.side.own{border-color:#367184}.side-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.side-title{font-size:16px;font-weight:850}.score{font-size:14px;color:var(--gold);font-weight:800}.score strong{font-size:23px}.field{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;padding:11px 0 6px;min-height:111px}.func{border:1px solid #4a6688;color:var(--ink);background:#1a304c;padding:11px 12px;border-radius:12px;min-width:118px;max-width:265px;min-height:88px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;gap:9px}.func .expr{font-family:Georgia,Times,serif;font-size:clamp(14px,2.6vw,18px);word-break:break-word;line-height:1.4}.func .strength{color:var(--gold);font-size:11px}.func .muted{color:#72869e}.func.target{border-color:var(--cyan);box-shadow:0 0 0 2px #4adddd33}.func:disabled{opacity:1}.hands{display:flex;gap:7px;overflow-x:auto;overscroll-behavior-x:contain;padding:8px 0;min-height:103px}.hand-card{flex:0 0 81px;height:103px;background:linear-gradient(155deg,#244365,#14273f);border:1px solid #52749a;border-radius:12px;padding:9px 5px;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center}.hand-card .symbol{font-size:22px;font-weight:850;color:#a6f2fb}.hand-card .card-title{font-size:10px;line-height:1.3;word-break:break-word}.hand-card.chosen{border-color:var(--gold);background:#4a3d39;box-shadow:0 0 0 2px #f9dd8655}.hand-card.dim{opacity:.5}.card-back{flex:0 0 40px;height:58px;border:1px solid #749cc5;border-radius:7px;background:repeating-linear-gradient(45deg,#1b3151,#1b3151 6px,#29496c 6px,#29496c 12px);display:grid;place-items:center;color:#b6dafa;font-weight:900;font-size:24px}.table-area{border:1px solid #385573;background:linear-gradient(120deg,#11283e,#101d30);border-radius:18px;padding:14px;display:grid;gap:10px}.table-title{display:flex;align-items:center;justify-content:space-between;gap:7px;flex-wrap:wrap}.selection{display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:13px;padding:8px 0}.targets{display:flex;gap:8px;flex-wrap:wrap}.notice{color:var(--muted);font-size:12px;line-height:1.7}.notice.warn{color:var(--gold)}.logs{border:1px solid #2b455d;border-radius:16px;background:#0c1b2e;padding:13px;margin-top:14px}.logs h2{font-size:17px;margin:0 0 11px}.log{padding:11px 4px;border-top:1px solid #294059}.log-head{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:13px;gap:10px}.log-detail{color:#d6e6f8;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;margin-top:5px}.empty{color:var(--muted);text-align:center;padding:23px}.badge{font-size:11px;padding:5px 8px;border-radius:999px;border:1px solid #4a7191;color:#c5ecff}.badge.turn{border-color:#4cb8bd;color:#b6fcf7}.badge.win{border-color:#dcb36d;color:#ffe3a9}.action-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.overlay{position:fixed;inset:0;background:#031024d9;display:flex;align-items:center;justify-content:center;z-index:50;padding:18px;backdrop-filter:blur(5px)}.modal{width:min(100%,490px);max-height:92vh;overflow-y:auto;background:#11253d;border:1px solid #45688c;border-radius:19px;padding:22px;box-shadow:0 30px 90px #0009}.modal h2{font-size:23px;margin:0 0 11px}.modal p{line-height:1.7;color:var(--muted)}.modal-buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.form-label{display:block;font-size:13px;font-weight:700;margin:15px 0 6px}.input{display:block;width:100%;min-height:46px;border:1px solid #506f91;border-radius:10px;color:white;background:#0a1b30;padding:10px;font-size:16px}.statusbox{padding:12px;background:#19354f;border:1px solid #446b8f;border-radius:12px;margin:13px 0}.room-code{font-size:40px;text-align:center;letter-spacing:.15em;font-weight:900;color:#99ebf6;padding:10px 0}.screen{display:none}.screen.active{display:block}.callout{background:#122945;border:1px solid #44607c;border-radius:12px;padding:13px;margin:12px 0}.footer-note{margin-top:25px;color:var(--muted);font-size:11px;text-align:center;line-height:1.6}.hidden{display:none!important}
+@media(max-width:660px){.grid-menu{grid-template-columns:1fr}.menu-tile{min-height:125px}.menu-tile strong{font-size:20px}.brand{font-size:20px}.app{padding:12px 10px 30px}.func{min-width:108px;padding:9px 10px}.side,.table-area{padding:12px}.hand-card{flex-basis:73px}.card-back{flex-basis:34px;height:53px}.room-code{font-size:34px}}
 </style>
-<script>
-/* NABLA ARENA — shared deterministic rules engine, runs in browser and Node.js. */
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.NablaEngine=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
-'use strict';
-// Weights, not finite card counts. Each draw is independent and does not deplete a deck.
-const CARDS={
- diff:{name:'微分',symbol:'d/dx',desc:'基底を1回微分',kind:'single',category:'attack',weight:18,ops:['diff']},
- diff2:{name:'2階微分',symbol:'d²/dx²',desc:'基底を2回微分',kind:'single',category:'attack',weight:2,ops:['diff','diff']},
- nabla:{name:'全体微分',symbol:'∇',desc:'全基底を1回微分',kind:'all',category:'attack',weight:7,ops:['diff']},
- delta:{name:'全体2階微分',symbol:'Δ',desc:'全基底を2回微分',kind:'all',category:'attack',weight:1,ops:['diff','diff']},
- integrate:{name:'積分',symbol:'∫dx',desc:'基底を1回積分',kind:'single',category:'defense',weight:12,ops:['integrate']},
- intall:{name:'全体積分',symbol:'∫ 全体',desc:'全基底を1回積分',kind:'all',category:'defense',weight:18,ops:['integrate']},
- intall2:{name:'全体2階積分',symbol:'∫∫ 全体',desc:'全基底を2回積分',kind:'all',category:'defense',weight:18,ops:['integrate','integrate']},
- mulx:{name:'xを掛ける',symbol:'× x',desc:'多項式にxを掛ける',kind:'single',category:'defense',weight:10,ops:['mulx']},
- zero:{name:'ゼロ化',symbol:'× 0',desc:'基底を0にする',kind:'single',category:'attack',weight:1,ops:['zero']},
- lim0:{name:'0への極限',symbol:'lim x→0',desc:'x→0 の極限を求める',kind:'single',category:'attack',weight:2,ops:['lim0']},
- liminf:{name:'∞への極限',symbol:'lim x→∞',desc:'x→+∞ の極限を求める',kind:'single',category:'attack',weight:2,ops:['liminf']},
- add1:{name:'基底追加：1',symbol:'+ 1',desc:'自分の場に 1 を追加',kind:'spawn',category:'summon',weight:8,family:'poly',degree:0},
- addx:{name:'基底追加：x',symbol:'+ x',desc:'自分の場に x を追加',kind:'spawn',category:'summon',weight:8,family:'poly',degree:1},
- addx2:{name:'基底追加：x²',symbol:'+ x²',desc:'自分の場に x² を追加',kind:'spawn',category:'summon',weight:8,family:'poly',degree:2},
- addx3:{name:'基底追加：x³',symbol:'+ x³',desc:'自分の場に x³ を追加',kind:'spawn',category:'summon',weight:6,family:'poly',degree:3},
- addexp:{name:'基底追加：eˣ',symbol:'+ eˣ',desc:'自分の場に eˣ を追加',kind:'spawn',category:'summon',weight:5,family:'exp'},
- addsin:{name:'基底追加：sin',symbol:'+ sin x',desc:'自分の場に sin x を追加',kind:'spawn',category:'summon',weight:4,family:'sin'},
- addcos:{name:'基底追加：cos',symbol:'+ cos x',desc:'自分の場に cos x を追加',kind:'spawn',category:'summon',weight:4,family:'cos'}
-};
-const TOTAL_WEIGHT=Object.values(CARDS).reduce((a,c)=>a+c.weight,0);
-const weightedDraw=(random=Math.random)=>{let r=random()*TOTAL_WEIGHT;for(const [k,c] of Object.entries(CARDS)){r-=c.weight;if(r<0)return k;}return 'diff';};
-const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;};
-function rational(n,d=1){if(d===0)throw Error('zero denominator');if(d<0){n=-n;d=-d;}const g=gcd(n,d);return {n:n/g,d:d/g};}
-function mulf(r,n,d=1){return rational(r.n*n,r.d*d);}
-function unary(r){return rational(-r.n,r.d);}
-const clone=b=>({...b,coef:{...b.coef}});
-const base=(family,degree=0,coef=rational(1),id=null)=>({id,family,degree,coef});
-const basisKey=b=>b.family==='poly'?`poly:${b.degree}`:b.family;
-function basisText(b){const c=b.coef;const v=b.family==='poly'?(b.degree===0?'':b.degree===1?'x':`x${sup(b.degree)}`):b.family==='exp'?'eˣ':b.family==='sin'?'sin x':'cos x';const sign=c.n<0?'-':'';const n=Math.abs(c.n),d=c.d;
- if(!v)return sign+(d===1?String(n):`${n}/${d}`);
- if(d===1)return sign+(n===1?'':n)+v;
- return `${sign}${n===1?'':n} ${v} / ${d}`.trim();
-}
-function sup(n){return String(n).replace(/\d/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(d)]);}
-const boardText=b=>b.length?b.map(basisText).join(' , '):'∅';
-function singleStep(b,op){const v=clone(b),old=basisText(v);let next,expr='',reason='';
- if(op==='zero'){expr=`(${old}) × 0 = 0`;reason='0になったため消滅';return {gone:true,expr,reason};}
- if(op==='lim0'){
-   if(v.family==='poly'&&v.degree>0||v.family==='sin'){expr=`lim(x→0) ${old} = 0`;reason='極限値が0のため消滅';return{gone:true,expr,reason};}
-   const result=v.family==='poly'?v.coef:v.family==='exp'||v.family==='cos'?v.coef:v.coef;
-   next=base('poly',0,result,v.id);expr=`lim(x→0) ${old} = ${basisText(next)}`;return {next,expr};
- }
- if(op==='liminf'){
-   if(v.family==='sin'||v.family==='cos')return{error:'sin x / cos x は x→+∞ で極限が存在しません。'};
-   if(v.family==='exp'||v.family==='poly'&&v.degree>0){const s=v.coef.n>0?'+∞':'−∞';expr=`lim(x→+∞) ${old} = ${s}`;reason='極限が発散したため消滅';return{gone:true,expr,reason};}
-   next=base('poly',0,v.coef,v.id);expr=`lim(x→+∞) ${old} = ${basisText(next)}`;return{next,expr};
- }
- if(op==='mulx'){
-   if(v.family!=='poly')return{error:'×x は多項式の基底にのみ使用できます。'};
-   next={...v,degree:v.degree+1};expr=`(${old}) × x = ${basisText(next)}`;return{next,expr};
- }
- if(op==='diff'){
-   if(v.family==='poly'){
-     if(v.degree===0){expr=`d/dx (${old}) = 0`;reason='微分すると0になるため消滅';return{gone:true,expr,reason};}
-     next={...v,degree:v.degree-1,coef:mulf(v.coef,v.degree)};
-   }else if(v.family==='exp')next=v;
-   else if(v.family==='sin')next={...v,family:'cos'};
-   else next={...v,family:'sin',coef:unary(v.coef)};
-   expr=`d/dx (${old}) = ${basisText(next)}`;return{next,expr};
- }
- if(op==='integrate'){
-   if(v.family==='poly')next={...v,degree:v.degree+1,coef:mulf(v.coef,1,v.degree+1)};
-   else if(v.family==='exp')next=v;
-   else if(v.family==='sin')next={...v,family:'cos',coef:unary(v.coef)};
-   else next={...v,family:'sin'};
-   expr=`∫ (${old}) dx = ${basisText(next)}  (C=0)`;return{next,expr};
- }
- return{error:'未対応の演算です。'};
-}
-function applyOperators(b,ops){let current=clone(b),steps=[];for(const op of ops){const s=singleStep(current,op);if(s.error)return{error:s.error};steps.push(s.expr);if(s.gone){steps.push(`判定：${s.reason}`);return{gone:true,steps};}current=s.next;}return{basis:current,steps};}
-function simulate(boards,cardKey,owner,targetId,actor){const c=CARDS[cardKey];if(!c)return{error:'存在しないカードです。'};if(owner!==0&&owner!==1)return{error:'対象の場が不正です。'};
- const old=boards[owner],newBoard=old.map(clone),before=boardText(old),steps=[],newId=-1;
- if(c.kind==='spawn'){
-   if(owner!==actor)return{error:'基底追加カードは自分の場に使用してください。'};
-   const addition=base(c.family,c.degree||0,rational(1),newId);
-   if(newBoard.some(b=>basisKey(b)===basisKey(addition)))return{error:`${basisText(addition)} と線形従属になるため、追加できません。`};
-   newBoard.push(addition);steps.push(`基底 ${basisText(addition)} を追加`);
- }else if(c.kind==='all'){
-   if(newBoard.length===0)return{error:'場に演算対象がありません。'};
-   let out=[];
-   for(const b of newBoard){const r=applyOperators(b,c.ops);if(r.error)return r;steps.push(`【${basisText(b)}】`,...r.steps);if(r.basis)out.push(r.basis);}
-   newBoard.splice(0,newBoard.length,...out);
- }else{
-   const ix=newBoard.findIndex(b=>b.id===targetId);if(ix<0)return{error:'対象の基底を選択してください。'};
-   const target=newBoard[ix],r=applyOperators(target,c.ops);if(r.error)return r;
-   steps.push(...r.steps);if(r.gone)newBoard.splice(ix,1);else newBoard[ix]=r.basis;
- }
- // If a transformed basis is proportional to an existing one, the transformed basis disappears.
- // For all-field operations, preserve the first basis of each equivalent group.
- const existingIds=c.kind==='single'?new Set(old.filter(b=>b.id!==targetId).map(b=>b.id)):new Set();
- const priority=(c.kind==='single')?[...newBoard.filter(b=>existingIds.has(b.id)),...newBoard.filter(b=>!existingIds.has(b.id))]:newBoard;
- const retainedIds=new Set(),keys=new Set();let linearCount=0;
- for(const b of priority){const key=basisKey(b);if(keys.has(key)){linearCount++;steps.push(`線形従属：${basisText(b)} は既存の基底と定数倍の関係 → 消滅`);}else{keys.add(key);retainedIds.add(b.id);}}
- const unique=newBoard.filter(b=>retainedIds.has(b.id));
- const unchanged=unique.length===old.length&&unique.every((b,i)=>b.id===old[i].id&&basisKey(b)===basisKey(old[i])&&b.coef.n===old[i].coef.n&&b.coef.d===old[i].coef.d);
- if(unchanged)return{error:'演算しても場が変化しません。別のカードや基底を選んでください。'};
- return {board:unique,before,after:boardText(unique),steps,removed:old.length-unique.length,linearCount,target:targetId==null?'場全体':basisText(old.find(b=>b.id===targetId)||base(c.family,c.degree||0))};
-}
-function makeGame(mode='cpu',difficulty='standard'){
- const g={mode,difficulty,boards:[[],[]],hands:[[],[]],turn:0,turnNumber:1,status:mode==='online'?'waiting':'playing',winner:null,logs:[],seq:1};
- for(let p=0;p<2;p++)g.boards[p]=[base('poly',0,rational(1),g.seq++),base('poly',1,rational(1),g.seq++),base('poly',2,rational(1),g.seq++)];
- if(g.status==='playing')startTurn(g);
- return g;
-}
-function log(g,entry){g.logs.push({...entry,at:Date.now()});if(g.logs.length>160)g.logs.splice(0,g.logs.length-160);}
-function startTurn(g){if(g.status!=='playing')return;const card=weightedDraw();g.hands[g.turn].push(card);log(g,{type:'draw',turn:g.turnNumber,actor:g.turn,card});}
-function beginOnline(g){if(g.status!=='waiting')return;g.status='playing';log(g,{type:'notice',message:'両プレイヤーが参加しました。対戦開始！'});startTurn(g);}
-function advance(g){if(g.boards[0].length===0||g.boards[1].length===0){g.status='ended';g.winner=g.boards[0].length===0?1:0;log(g,{type:'end',winner:g.winner,message:`プレイヤー${g.winner+1}の勝利！`});return;}
- g.turn=1-g.turn;g.turnNumber++;startTurn(g);}
-function move(g,actor,index,owner,targetId){if(g.status!=='playing')return{error:'対戦が始まっていません。'};if(g.turn!==actor)return{error:'あなたのターンではありません。'};if(!Number.isInteger(index)||index<0||index>=g.hands[actor].length)return{error:'カードを選択してください。'};
- const card=g.hands[actor][index];const result=simulate(g.boards,card,owner,targetId,actor);if(result.error)return result;
- g.boards[owner]=result.board.map(b=>b.id===-1?{...b,id:g.seq++}:b);
- g.hands[actor].splice(index,1);log(g,{type:'play',turn:g.turnNumber,actor,card,owner,target:result.target,before:result.before,after:result.after,steps:result.steps,removed:result.removed});advance(g);return{ok:true};}
-function pass(g,actor,index=null){if(g.status!=='playing')return{error:'対戦が始まっていません。'};if(g.turn!==actor)return{error:'あなたのターンではありません。'};let card=null;
- if(index!==null){if(!Number.isInteger(index)||index<0||index>=g.hands[actor].length)return{error:'捨てるカードが不正です。'};card=g.hands[actor].splice(index,1)[0];}
- log(g,{type:'pass',turn:g.turnNumber,actor,card});advance(g);return{ok:true};}
-function cpuAction(g){if(g.status!=='playing'||g.turn!==1)return null;const moves=[];
- for(const [index,card] of g.hands[1].entries()){
-  const c=CARDS[card];for(const owner of (c.kind==='spawn'?[1]:[0,1])){
-   const targets=c.kind==='single'?g.boards[owner].map(b=>b.id):[null];
-   for(const targetId of targets){const s=simulate(g.boards,card,owner,targetId,1);if(s.error)continue;
-     const delta=s.board.length-g.boards[owner].length;
-     let score=(owner===0?-delta:delta)*16+(owner===0?-1:1)*Math.max(0,s.removed)*4;
-     if(owner===0&&s.board.length===0)score+=1000;
-     if(owner===1&&s.board.length===0)score-=1000;
-     if(owner===1&&delta===0)score-=2;
-     score+=(card==='diff'?.5:card==='zero'?-1:0);
-     moves.push({index,owner,targetId,score});
-   }
-  }
- }
- if(!moves.length)return{kind:'pass'};
- moves.sort((a,b)=>b.score-a.score);
- if(g.difficulty==='easy')return{kind:'move',...moves[Math.floor(Math.random()*Math.min(8,moves.length))]};
- if(g.difficulty==='standard'&&Math.random()<.3)return{kind:'move',...moves[Math.floor(Math.random()*Math.min(3,moves.length))]};
- return{kind:'move',...moves[0]};
-}
-function publicView(g,seat){return{mode:g.mode,difficulty:g.difficulty,boards:g.boards,hand:g.hands[seat],opponentHandCount:g.hands[1-seat].length,turn:g.turn,turnNumber:g.turnNumber,status:g.status,winner:g.winner,logs:g.logs,seat};}
-return{CARDS,TOTAL_WEIGHT,weightedDraw,basisText,boardText,makeGame,beginOnline,move,pass,cpuAction,publicView,simulate,rational};
-});
-
-</script><script type="module">
-(()=>{
-'use strict';
-const E=window.NablaEngine, $=id=>document.getElementById(id);
-const escape=str=>String(str).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-let mode=null,game=null,seat=0,selected=null,locked=false,roomInfo=null,events=null,cpuTimer=null,toastTimer=null,modalType='menu',rematchVoted=false;
-const STORAGE_KEY='nabla-arena-room-v2';
-// The Netlify frontend and the Render backend can use separate origins.
-const SERVER_KEY='nabla-arena-server-v2';
-function normalizeServer(value){
- let u;try{u=new URL(String(value||'').trim());}catch{throw Error('サーバーURLを https://○○.onrender.com の形式で入力してください。');}
- const local=u.protocol==='http:'&&['localhost','127.0.0.1'].includes(u.hostname);
- if((u.protocol!=='https:'&&!local)||u.username||u.password||u.search||u.hash||!['/','/api/health'].includes(u.pathname))throw Error('サーバーURLは https://○○.onrender.com の形式にしてください。');
- return u.origin;
-}
-const paramServer=new URLSearchParams(location.search).get('server');
-let serverBase='';
-try{if(paramServer)serverBase=normalizeServer(paramServer);
- else if(localStorage.getItem(SERVER_KEY))serverBase=normalizeServer(localStorage.getItem(SERVER_KEY));
- if(serverBase)localStorage.setItem(SERVER_KEY,serverBase);
-}catch{localStorage.removeItem(SERVER_KEY);}
-const apiUrl=path=>(serverBase||location.origin)+'/api/'+path;
-function saveServerFromField(){
- const val=$('server-url')?.value.trim()||'';
- if(val){serverBase=normalizeServer(val);localStorage.setItem(SERVER_KEY,serverBase);}
- if(!serverBase && location.hostname.endsWith('.netlify.app'))throw Error('先にRenderの対戦サーバーURLを入力してください。');
-}
-async function testServer(){
- const status=$('server-check'),b=$('test-server');
- try{
-  saveServerFromField();if(b)b.disabled=true;
-  if(status)status.textContent='サーバーの応答を確認しています。無料枠の起動時は時間がかかります。';
-  const res=await fetch(apiUrl('health'),{cache:'no-store'});
-  const body=await res.json();if(!res.ok||body.ok!==true)throw Error('接続先はゲームの対戦サーバーではないようです。');
-  if(status)status.textContent='接続確認OK。対戦ルームを作成できます。';
-  toast('対戦サーバーに接続できました。');
- }catch(e){if(status)status.textContent='接続失敗：'+e.message;toast('サーバーに接続できませんでした。');}
- finally{if(b)b.disabled=false;}
-}
-function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('shown');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('shown'),3400);}
-function modal(html,type){modalType=type;$('modal-content').innerHTML=html;$('modal-backdrop').classList.add('shown');}
-function closeModal(){modalType='';$('modal-backdrop').classList.remove('shown');}
-function closeTools(){if(game)closeModal();else menu();}
-function btn(id,fn){const el=$(id);if(el)el.addEventListener('click',fn);}
-function stopOnline(){if(events){events.close();events=null;}roomInfo=null;localStorage.removeItem(STORAGE_KEY);$('online-banner').hidden=true;rematchVoted=false;}
-function reset(modeName,difficulty='standard'){
- clearTimeout(cpuTimer);if(roomInfo)stopOnline();selected=null;seat=0;locked=false;mode=modeName;game=E.makeGame(modeName,difficulty);closeModal();render();scheduleCpu();
-}
-function menu(){modal(`<div class="modal-intro"><div class="modal-logo">∇</div><div class="kicker">NABLA ARENA · V2</div><h2 id="modal-title">対戦モードを選択</h2><p>スマートフォンとChromebookで遊べる数学カードゲーム。</p></div><div class="modal-buttons"><button class="btn primary" id="pick-cpu">CPUと対戦</button><button class="btn" id="pick-local">同じ端末で2人対戦</button><button class="btn" id="pick-online">オンライン対戦</button></div><p class="modal-note">オンライン対戦は、サーバー付きで公開されたサイトから利用できます。各端末が同じURLを開き、ルームコードで接続します。</p>`, 'menu');
- btn('pick-cpu',()=>chooseDifficulty());btn('pick-local',()=>reset('local'));btn('pick-online',()=>onlineMenu());}
-function chooseDifficulty(){modal(`<h2 id="modal-title">CPUの強さ</h2><p>カード抽選の確率は難易度で変化しません。</p><div class="modal-buttons"><button class="btn" data-d="easy">やさしい</button><button class="btn primary" data-d="standard">ふつう</button><button class="btn" data-d="hard">強い</button></div><button class="btn quiet" id="go-back">戻る</button>`,'difficulty');document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>reset('cpu',b.dataset.d));btn('go-back',menu);}
-function onlineMenu(){const urlRoom=new URLSearchParams(location.search).get('room')||'';
- modal(`<h2 id="modal-title">オンライン対戦</h2><p>スマホ・Chromebook同士で対戦できます。各部屋2人まで、先手は部屋の作成者です。</p><label for="server-url">対戦サーバーURL（Render）</label><input id="server-url" type="url" inputmode="url" autocomplete="url" spellcheck="false" placeholder="https://あなたのサービス.onrender.com" value="${escape(serverBase)}"><div class="modal-buttons"><button class="btn" id="test-server">接続を確認して保存</button></div><p class="modal-note" id="server-check">Renderに公開された対戦サーバーのURLを入力。招待URLには接続先も自動的に含まれます。</p><div class="modal-buttons"><button class="btn primary" id="create-online">新しい部屋を作る</button></div><label for="join-code">6桁のルームコードで参加</label><input id="join-code" maxlength="6" inputmode="numeric" autocomplete="off" placeholder="例：123456" value="${escape(urlRoom.replace(/\D/g,'').slice(0,6))}"><div class="modal-buttons"><button class="btn" id="join-online">部屋に参加する</button><button class="btn quiet" id="go-back">戻る</button></div><div class="notice">カードのドローと演算過程は公開。手札全体は相手から見えません。</div><p class="modal-note">Netlifyのゲーム画面だけではオンライン対戦できません。Renderで対戦サーバーを公開し、そのURLをここに登録してください。</p>`,'online-menu');
- btn('create-online',()=>createRoom());btn('join-online',()=>joinRoom());btn('test-server',testServer);btn('go-back',menu);
- $('join-code').addEventListener('keydown',e=>{if(e.key==='Enter')joinRoom();});}
-async function request(path,payload){let response;try{response=await fetch(apiUrl(path),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch{throw Error('対戦サーバーに接続できません。公開先と通信状態を確認してください。');}
- let data;try{data=await response.json();}catch{throw Error('ここにはオンライン対戦サーバーがありません。Node.jsサーバー付きのサイトとして公開してください。');}
- if(!response.ok)throw Error(data.error||'リクエストに失敗しました。');return data;}
-async function createRoom(){const b=$('create-online');if(b)b.disabled=true;try{saveServerFromField();const r=await request('create',{});establish(r);toast('ルームを作成しました。招待URLを送ってください。');}catch(e){toast(e.message);if(b)b.disabled=false;}}
-async function joinRoom(){const code=$('join-code').value.replace(/\s/g,'');if(!/^\d{6}$/.test(code)){toast('6桁のルームコードを入力してください。');return;}
- const b=$('join-online');b.disabled=true;try{saveServerFromField();const r=await request('join',{code});establish(r);toast('オンライン対戦に参加しました。');}catch(e){toast(e.message);b.disabled=false;}}
-function establish(r){clearTimeout(cpuTimer);if(events){events.close();events=null;}mode='online';roomInfo={code:r.code,token:r.token||roomInfo?.token,seat:r.seat};seat=r.seat;selected=null;locked=false;rematchVoted=false;
- localStorage.setItem(STORAGE_KEY,JSON.stringify(roomInfo));game=r.state;closeModal();connectEvents();render();}
-async function reconnect(){let stored;try{stored=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');}catch{}if(!stored||!stored.code||!stored.token)return false;
- try{const r=await request('reconnect',stored);establish({...r,token:stored.token});return true;}catch(e){stopOnline();return false;}}
-function connectEvents(){if(!roomInfo)return;if(events)events.close();const params=new URLSearchParams({code:roomInfo.code,token:roomInfo.token});events=new EventSource(apiUrl('events')+'?'+params);
- events.addEventListener('state',ev=>{if(mode!=='online')return;const state=JSON.parse(ev.data);const was=game?.status;game=state;seat=roomInfo.seat;if(game.status!=='ended')rematchVoted=false;
- if(game.status==='ended'&&was!=='ended')toast(game.winner===seat?'あなたの勝利！':'相手の勝利。');
- if(game.status==='playing'&&was==='waiting')toast('対戦開始！');
- selected=null;render();});
- events.onerror=()=>{$('status-text').textContent='通信再接続中…';};}
-const mySeat=()=>mode==='local'?(game?.turn||0):seat;
-const canAct=()=>game&&game.status==='playing'&&!locked&&game.turn===mySeat()&&(mode!=='cpu'||game.turn===0);
-function currentHand(){return mode==='online'?game.hand:game.hands[mySeat()];}
-function names(who){if(mode==='cpu')return who===0?'あなた':'CPU';if(mode==='local')return `プレイヤー${who+1}`;return who===seat?'あなた':'相手';}
-function cardMarkup(cardKey,i){const c=E.CARDS[cardKey];return `<button type="button" class="operation-card ${c.category} ${i===selected?'selected':''}" data-index="${i}" ${!canAct()?'disabled':''} aria-label="${escape(c.name)}: ${escape(c.desc)}"><span class="number">CARD ${String(i+1).padStart(2,'0')}</span><span class="symbol">${escape(c.symbol)}</span><span><span class="card-title">${escape(c.name)}</span><br><span class="card-description">${escape(c.desc)}</span></span></button>`;}
-function renderBoard(container,owner,viewportRole){container.replaceChildren();const bases=game.boards[owner],cardKey=canAct()&&selected!==null?currentHand()[selected]:null,c=E.CARDS[cardKey];
- const canTarget=!!c&&(c.kind==='single'&&bases.length>0||c.kind==='all'||c.kind==='spawn'&&owner===mySeat());container.classList.toggle('actionable',!!canTarget);
- if(!bases.length){const d=document.createElement('p');d.className='empty-board';d.textContent='∅ — 基底消滅';container.appendChild(d);}else for(const [i,b] of bases.entries()){
-  const button=document.createElement('button');button.type='button';button.className='basis-card'+(canTarget?' actionable':'');button.disabled=!canTarget;
-  button.innerHTML=`<strong>${escape(E.basisText(b))}</strong><small>BASIS ${String(i+1).padStart(2,'0')}</small>`;
-  button.addEventListener('click',ev=>{ev.stopPropagation();chooseTarget(owner,c?.kind==='single'?b.id:null);});container.appendChild(button);
- }
- container.onclick=()=>{if(c?.kind==='single'){toast('演算する基底をタップしてください。');return;}chooseTarget(owner,null);};
-}
-function formatEntry(entry){const who=names(entry.actor);let head='',summary='',steps='';
- if(entry.type==='notice')return `<article class="log-entry"><div class="log-summary">${escape(entry.message)}</div></article>`;
- if(entry.type==='end')return `<article class="log-entry end"><div class="log-heading">対戦終了</div><div class="log-summary">${escape(names(entry.winner))}の勝利！</div></article>`;
- if(entry.type==='draw'){head=`${who}がドロー`;summary=`<b>${escape(E.CARDS[entry.card]?.name||entry.card)}</b> を1枚引いた。`;}
- if(entry.type==='pass'){head=`${who}がパス`;summary=entry.card?`<b>${escape(E.CARDS[entry.card].name)}</b> を捨てた。`:'カードを使わずターン終了。';}
- if(entry.type==='play'){
-  const latestPlay=game.logs.filter(x=>x.type==='play').at(-1);const isLatestPlay=entry===latestPlay;
-  const targetOwner=entry.owner===entry.actor?'自分':'相手';head=`${who}：${E.CARDS[entry.card]?.name||entry.card}`;
-  summary=`<div>使用対象：<b>${escape(targetOwner)}の${escape(entry.target||'場全体')}</b></div><div>変更前：${escape(entry.before)}</div><div>結果：<b>${escape(entry.after)}</b>${entry.removed>0?`（${entry.removed}基底消滅）`:''}</div>`;
-  steps=`<details ${isLatestPlay?'open':''}><summary>計算過程を${isLatestPlay?'閉じる':'表示する'}</summary><div class="steps">${escape((entry.steps||[]).join('\n'))}</div></details>`;
- }
- return `<article class="log-entry ${escape(entry.type)}"><div class="log-heading"><span>${escape(head)}</span><small>TURN ${entry.turn||'—'}</small></div><div class="log-summary">${summary}</div>${steps}</article>`;
-}
-function render(){if(!game)return;const me=mySeat(),enemy=1-me;const online=mode==='online';
- $('online-banner').hidden=!online;if(online){$('room-code').textContent=roomInfo?.code||'------';$('online-detail').textContent=game.status==='waiting'?'相手の参加待ち / ルームコードを共有':game.status==='ended'?'対戦終了':'オンライン対戦中';}
- const yourTurn=game.turn===me;const ongoing=game.status==='playing';const displayHand=mode==='local'&&locked?[]:currentHand();
- $('enemy-label').textContent=names(enemy);$('my-label').textContent=names(me);$('enemy-dim').textContent=game.boards[enemy].length;$('my-dim').textContent=game.boards[me].length;
- $('enemy-phase').textContent=ongoing&&game.turn===enemy?'行動中':'待機中';$('my-phase').textContent=ongoing&&yourTurn?'行動中':'待機中';$('enemy-phase').classList.toggle('now',ongoing&&game.turn===enemy);$('my-phase').classList.toggle('now',ongoing&&yourTurn);
- $('side-enemy').classList.toggle('turn-active',ongoing&&game.turn===enemy);$('side-me').classList.toggle('turn-active',ongoing&&yourTurn);
- $('turn-count').textContent='TURN '+String(game.turnNumber).padStart(2,'0');$('stat-turn').textContent=game.turnNumber;
- $('turn-message').textContent=game.status==='waiting'?'対戦相手を待機中':game.status==='ended'?'GAME SET':yourTurn?'あなたのターン':mode==='cpu'?'CPUのターン':'相手のターン';
- $('status-text').textContent=game.status==='waiting'?'参加待ち':game.status==='ended'?'対戦終了':mode==='online'?'オンライン対戦中':mode==='cpu'?'CPU対戦中':'ローカル対戦中';
- $('mode-text').textContent=mode==='online'?`オンライン対戦 / ルーム ${roomInfo?.code||'---'} · ${game.status==='waiting'?'相手の入室待ち':`相手の手札 ${game.opponentHandCount}枚`}`:mode==='cpu'?`CPU対戦 / 難易度 ${game.difficulty==='easy'?'やさしい':game.difficulty==='hard'?'強い':'ふつう'}`:'2人対戦 / この端末で交代';
- $('opponent-cards').textContent=`${names(enemy)}の手札：${online?game.opponentHandCount:game.hands[enemy].length}枚（内容は非公開）`;
- $('hand-label').textContent=`${names(me)}の手札`;$('hand-note').textContent=ongoing&&yourTurn?'カードを選んで、対象の基底・場を選択してください。':game.status==='waiting'?'相手が参加すると対戦を始められます。':'次のターンを待っています。';
- $('hand-count').textContent=displayHand.length+' 枚';
- renderBoard($('enemy-board'),enemy,'enemy');renderBoard($('my-board'),me,'self');
- const cardList=$('card-list');cardList.innerHTML=displayHand.map(cardMarkup).join('')||`<p class="empty-log">${ongoing&&mode==='local'&&locked?'相手の手札を隠しています。':ongoing&&yourTurn?'カードを持っていません。':'現在使用できるカードはありません。'}</p>`;
- cardList.querySelectorAll('[data-index]').forEach(b=>b.onclick=()=>{const idx=Number(b.dataset.index);selected=selected===idx?null:idx;render();});
- $('pass-btn').disabled=!canAct();$('pass-btn').textContent=selected==null?'パス':'選択カードを捨ててパス';
- const chosen=selected!==null?E.CARDS[displayHand[selected]]:null;
- $('selection-tip').textContent=chosen?`「${chosen.name}」選択中：${chosen.kind==='single'?'対象の基底を選択':chosen.kind==='all'?'対象の場を選択':'自分の場を選択'}`:'カードを選ぶと対象を選択できます。';
- const hist=$('history');hist.innerHTML=(game.logs||[]).slice().reverse().map(formatEntry).join('')||'<p class="empty-log">まだ履歴はありません。</p>';
- $('restart-btn').hidden=!(online&&game.status==='ended');$('restart-btn').disabled=rematchVoted;$('restart-btn').textContent=rematchVoted?'相手の再戦承認を待っています':'再戦を申し込む';
-}
-async function chooseTarget(owner,targetId){if(!canAct()||selected===null)return;const c=E.CARDS[currentHand()[selected]];if(c.kind==='spawn'&&owner!==mySeat()){toast('追加カードは自分の場に使用してください。');return;}
- if(c.kind==='single'&&targetId==null){toast('対象の基底を選択してください。');return;}
- if(mode==='online'){
-  try{const action={...roomInfo,index:selected,owner,targetId};await request('move',action);selected=null;}catch(e){toast(e.message);}return;
- }
- const r=E.move(game,game.turn,selected,owner,targetId);if(r.error){toast(r.error);return;}selected=null;render();scheduleCpu();handoff();
-}
-async function pass(){if(!canAct())return;const index=selected;
- if(mode==='online'){try{await request('pass',{...roomInfo,index});selected=null;}catch(e){toast(e.message);}return;}
- const result=E.pass(game,game.turn,index);if(result.error){toast(result.error);return;}selected=null;render();scheduleCpu();handoff();}
-function scheduleCpu(){clearTimeout(cpuTimer);if(mode!=='cpu'||!game||game.status!=='playing'||game.turn!==1)return;
- cpuTimer=setTimeout(()=>{if(mode!=='cpu'||game.turn!==1)return;const act=E.cpuAction(game);
- if(act?.kind==='move')E.move(game,1,act.index,act.owner,act.targetId);
- else E.pass(game,1);render();if(game.status==='ended')toast(game.winner===0?'あなたの勝利！':'CPUの勝利！');},680);
-}
-function handoff(){if(mode!=='local'||game.status!=='playing')return;locked=true;render();modal(`<div class="modal-intro"><div class="modal-logo">∂</div><h2 id="modal-title">プレイヤー${game.turn+1}のターン</h2><p>端末を次のプレイヤーに渡してください。<br>準備ができたら手札を開きます。</p></div><div class="modal-buttons"><button class="btn primary" id="reveal-cards">手札を表示して続ける</button></div>`,'handoff');btn('reveal-cards',()=>{locked=false;closeModal();render();});}
-async function rematch(){if(mode!=='online'||!roomInfo)return;try{await request('rematch',roomInfo);rematchVoted=true;render();}catch(e){toast(e.message);}}
-function ruleModal(){const back=!!game;modal(`<div class="close-row"><button class="btn mini" id="close-dialog">閉じる ×</button></div><h2 id="modal-title">ゲームのルール</h2><p><b>先に相手の基底をすべて消滅させると勝利</b>です。最初の基底は双方とも 1・x・x²。毎ターン開始時に1枚ずつカードを引き、1枚を使用するかパスします。</p><h3>カードの抽選</h3><p>全18種類から毎回独立抽選。カードの総枚数・手札の上限はありません。2階微分・全体2階微分・0への極限・∞への極限・ゼロ化は低確率です。全体積分・全体2階積分は通常の微分と同じ排出率です。</p><h3>演算・消滅判定</h3><ul><li>微分・積分：係数も計算します。2階は2回連続で演算します。</li><li>全体演算：選択した場の全基底へそれぞれ適用します。</li><li>積分定数 C は0とします。</li><li>0になった基底、∞に発散する基底は消滅。</li><li>同じ関数の定数倍となる基底は線形従属として1つのみ残します。</li><li>sin / cos の +∞ 極限は存在しないため使用できません。</li><li>×x は多項式にのみ使えます。</li><li>使っても変化がない行動は無効（カードは消費されません）。</li></ul><h3>行動履歴</h3><p>CPU・オンライン・ローカルのすべてで、カードのドロー、対象、計算過程、結果を記録します。相手がドローしたカード名は公開され、未使用の手札全体は非公開です。</p><p class="modal-note">このサイトは原作の完全再現ではなく非公式のアレンジ版です。</p>`, 'rules');btn('close-dialog',()=>back?closeModal():menu);}
-function probabilities(){const table=Object.entries(E.CARDS).map(([key,c])=>`<tr><td>${escape(c.name)}</td><td>${c.weight}</td><td>${(100*c.weight/E.TOTAL_WEIGHT).toFixed(2)}%</td></tr>`).join('');modal(`<div class="close-row"><button class="btn mini" id="close-dialog">閉じる ×</button></div><h2 id="modal-title">カード排出率</h2><p>全カードの重みの合計：<b>${E.TOTAL_WEIGHT}</b>。毎回独立抽選なので、カードを引いても次の確率は変化しません。</p><table><thead><tr><th>カード</th><th>重み</th><th>排出率</th></tr></thead><tbody>${table}</tbody></table><p class="modal-note">全体積分・全体2階積分・通常の微分はそれぞれ重み18です。</p>`, 'probabilities');btn('close-dialog',closeTools);}
-async function copyText(txt){try{await navigator.clipboard.writeText(txt);toast('コピーしました。');}catch{prompt('この文字列をコピーしてください。',txt);}}
-btn('pass-btn',pass);btn('restart-btn',rematch);btn('menu-btn',()=>{if(mode==='online'&&game?.status==='playing'&&!confirm('対戦を抜けますか？このブラウザの参加情報は消えます。'))return;menu();});btn('rule-btn',ruleModal);btn('prob-btn',probabilities);
-btn('copy-code',()=>roomInfo&&copyText(roomInfo.code));btn('copy-room',()=>roomInfo&&copyText(location.origin+location.pathname+'?'+new URLSearchParams({room:roomInfo.code,server:serverBase||location.origin})));
-document.addEventListener('keydown',e=>{if(modalType||!canAct()||e.altKey||e.ctrlKey||e.metaKey||e.target.matches('input,textarea'))return;if(e.key==='Escape'){selected=null;render();}
- if(/^\d$/.test(e.key)){const i=e.key==='0'?9:Number(e.key)-1;if(i<currentHand().length){selected=i;render();}}
-});
-// Rejoin when the page is refreshed on a public server; otherwise open the menu.
-reconnect().then(ok=>{if(!ok)menu();});
-})();
-
-</script>
 </head>
 <body>
-<div class="container">
-<header class="header">
-  <div class="brand"><span class="brand-crest">∇</span><div><strong>NABLA <em>ARENA</em></strong><small>MATHEMATICAL CARD DUEL · V2</small></div></div>
-  <div class="header-actions"><button id="prob-btn" class="btn quiet">排出率</button><button id="rule-btn" class="btn quiet">ルール</button><button id="menu-btn" class="btn">モード選択</button></div>
-</header>
-<section class="hero"><div><div class="kicker">LOGIC IS YOUR WEAPON</div><h1>演算で、相手の次元を<strong>ゼロ</strong>に。</h1><p>微分・積分・極限を駆使する数学カードゲーム。毎ターン1枚ドロー、18種類のカードで対決。</p></div><div class="hero-status" id="status"><span class="status-pulse"></span><span id="status-text">モードを選択してください</span></div></section>
-<div id="online-banner" class="online-banner" hidden><div><span class="online-mini">ONLINE ROOM</span> <strong id="room-code">------</strong><span class="online-detail" id="online-detail">参加者を待っています</span></div><div class="banner-actions"><button class="btn mini" id="copy-room">招待URLをコピー</button><button class="btn mini" id="copy-code">コードをコピー</button></div></div>
-<main class="layout">
-<div class="battle-column">
-<section class="arena" aria-label="対戦フィールド">
-  <div class="player-side top" id="side-enemy"><div class="player-bar"><div class="player-ident"><span class="avatar other">∂</span><div><small>OPPONENT</small><h2 id="enemy-label">CPU / プレイヤー2</h2></div></div><div class="player-right"><div class="phase" id="enemy-phase">待機中</div><div class="dim"><span>DIMENSION</span><strong id="enemy-dim">3</strong></div></div></div><div class="basis-board" id="enemy-board" aria-label="相手の基底"></div><div class="opponent-cards" id="opponent-cards">相手の手札：非公開</div></div>
-  <div class="divider-line"><span>FIELD / <b>F(x)</b></span><strong id="turn-message">ゲームを始めてください</strong><span id="turn-count">TURN 01</span></div>
-  <div class="player-side bottom" id="side-me"><div class="player-bar"><div class="player-ident"><span class="avatar self">∇</span><div><small>PLAYER</small><h2 id="my-label">あなた</h2></div></div><div class="player-right"><div class="phase" id="my-phase">待機中</div><div class="dim"><span>DIMENSION</span><strong id="my-dim">3</strong></div></div></div><div class="basis-board" id="my-board" aria-label="自分の基底"></div></div>
-  <div class="hand"><div class="section-head"><div><small>YOUR CARDS</small><h2 id="hand-label">手札</h2><p id="hand-note">カードを選び、対象の基底または場をタップしてください。</p></div><div class="hand-count" id="hand-count">0 枚</div></div><div class="cards" id="card-list"></div><div class="hand-actions"><div id="selection-tip">カードを選ぶと使い方を表示します。</div><button class="btn pass" id="pass-btn" disabled>パス</button></div></div>
+<div class="app">
+<header class="top"><div><div class="brand">∇ NABLA <b>ARENA</b></div><div class="small">V3 β｜関数で戦うカードゲーム</div></div><div class="top-actions"><span class="badge" id="network-indicator">OFFLINE</span><button class="btn subtle mini" id="home-btn" type="button">メニュー</button></div></header>
+<section id="menu-screen" class="screen active">
+ <div class="hero"><h1>関数を組み立て、<br>相手の盤面を攻略せよ。</h1><p>7枚の手札から選び、微分・積分・和・差・積を駆使して戦う。50ターン終了時は関数強度の合計で判定。</p><div class="meta-line"><span class="chip">25種類のカード</span><span class="chip">手札7枚</span><span class="chip">50ターン</span></div></div>
+ <div class="grid-menu"><button class="menu-tile" id="menu-cpu"><span class="emoji">♟</span><strong>CPU対戦</strong><p>コンピューターを相手に練習する</p></button><button class="menu-tile" id="menu-local"><span class="emoji">▣</span><strong>ローカル2人対戦</strong><p>同じ端末で交互に操作する</p></button><button class="menu-tile" id="menu-online"><span class="emoji">◎</span><strong>オンライン対戦</strong><p>ルームコードで別の端末と対戦する</p></button></div>
+ <div class="callout"><strong>V3 ベータ版</strong><p class="notice">複雑な数式に未対応の場合は、カードを消費せず操作を禁止します。CPU・オンラインの動作確認用として公開準備を行います。</p></div>
 </section>
-<div class="game-hint">このゲームは非公式のアレンジ版です。係数を含む記号計算を行い、積分定数は0とします。<span>カード・手札・抽選に枚数制限はありません。</span></div>
+<section id="game-screen" class="screen">
+ <div class="meta-line"><span class="chip" id="mode-label">対戦</span><span class="chip" id="turn-label">ターン 0 / 50</span><span class="chip" id="acting-label">先攻の手番</span><span class="chip" id="room-label" style="display:none"></span></div>
+ <div class="board-wrap">
+  <section class="side opponent"><div class="side-head"><div><span class="side-title" id="opponent-name">相手</span><div class="small" id="opponent-cards-label">手札 7枚</div></div><div class="score">場の強度合計 <strong id="opponent-score">0</strong></div></div><div class="hands" id="opponent-hands"></div><div class="field" id="opponent-field"></div></section>
+  <section class="table-area"><div class="table-title"><strong>対戦テーブル</strong><span class="badge" id="battle-status">カードを選択</span></div><div id="action-hint" class="notice">手札を選び、作用対象の関数をタップしてください。</div><div class="selection" id="selection-display"></div><div class="targets" id="action-buttons"></div><div id="last-action" class="callout notice">カードの使用履歴がここに表示されます。</div></section>
+  <section class="side own"><div class="side-head"><div><span class="side-title" id="own-name">あなた</span><div class="small" id="own-cards-label">手札 7枚</div></div><div class="score">場の強度合計 <strong id="own-score">0</strong></div></div><div class="field" id="own-field"></div><div class="hands" id="own-hands"></div><div class="action-footer"><span class="notice">自分の手札は自分にだけ表示されます。</span><button class="btn mini subtle" id="clear-selection">選択解除</button></div></section>
+ </div>
+ <section class="logs"><div class="table-title"><h2>計算・行動履歴</h2><button class="btn mini subtle" id="toggle-logs">表示切替</button></div><div id="log-items"></div></section>
+</section>
+<div class="footer-note">NABLA ARENA V3 / GitHub + Netlify + Render　｜　特別ルールの計算結果は数学上の等式と区別して表示します。</div>
 </div>
-<aside class="sidebar"><section class="sidepanel"><div class="panel-top"><h2>対戦情報</h2><span class="panel-icon">◈</span></div><div class="stats"><div><small>ターン</small><strong id="stat-turn">—</strong></div><div><small>カード種類</small><strong>18</strong></div><div><small>ドロー</small><strong>毎ターン1枚</strong></div><div><small>山札</small><strong>∞</strong></div></div><div class="mode-descriptor" id="mode-text">対戦モードを選んでください。</div><button class="btn primary full" id="restart-btn" hidden>再戦を申し込む</button></section>
-<section class="sidepanel history-panel"><div class="panel-top"><h2>対戦ログ / 計算過程</h2><span class="panel-icon">≡</span></div><p class="sidebar-sub">ドローしたカード、使用先、途中式、結果を両者共通で表示します。</p><div id="history" class="history" aria-live="polite"><p class="empty-log">ゲームを開始すると履歴がここに表示されます。</p></div></section>
-<section class="sidepanel"><div class="panel-top"><h2>基本操作</h2><span class="panel-icon">?</span></div><div class="guide"><span>01</span><div><strong>ターン開始で1枚獲得</strong><p>引いたカードは自動的に手札へ入ります。</p></div><span>02</span><div><strong>手札のカードを選択</strong><p>基底ひとつを対象にするか、場全体を対象にするか確認。</p></div><span>03</span><div><strong>結果を確認する</strong><p>計算が右側のログに記録されます。相手の基底をすべて消したら勝利。</p></div></div></section></aside>
-</main>
-<footer class="footer">NABLA ARENA — 非公式アレンジ版 · スマートフォン / Chromebook 対応 · オンライン対戦はサーバー公開が必要です</footer>
-</div>
-<div id="modal-backdrop" class="modal-backdrop shown" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div id="modal-content" class="modal"></div></div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-</body></html>
+<div class="overlay" id="overlay" style="display:none"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+<div id="toast" role="status" aria-live="polite" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;padding:11px 16px;border:1px solid #427996;background:#15324c;border-radius:12px;display:none;max-width:90vw;text-align:center"></div>
+<script src="game.js"></script>
+<script>
+'use strict';
+const E=window.NablaEngine;
+const $=s=>document.querySelector(s);
+const escapeHtml=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DEFAULT_SERVER='https://nabla-arena.onrender.com';
+let serverUrl=(localStorage.getItem('nabla_v3_server')||DEFAULT_SERVER).replace(/\/$/,'');
+let game=null,view=null,mode=null,session=null,stream=null,poll=null,selected=[],busy=false,localCurtain=false,logsOpen=true,cpuTimer=null;
+function toast(message){let t=$('#toast');t.textContent=message;t.style.display='block';clearTimeout(t._timer);t._timer=setTimeout(()=>t.style.display='none',4000);}
+function modal(content){$('#modal').innerHTML=content;$('#overlay').style.display='flex';}
+function closeModal(){$('#overlay').style.display='none';$('#modal').innerHTML='';}
+function screen(name){$('#menu-screen').classList.toggle('active',name==='menu');$('#game-screen').classList.toggle('active',name==='game');}
+function button(text,fn,cls='btn'){let b=document.createElement('button');b.type='button';b.className=cls;b.textContent=text;b.onclick=fn;return b;}
+function baseButtons(){return '<div class="modal-buttons"><button class="btn subtle" id="modal-cancel">戻る</button></div>';}
+function stopNetwork(){if(stream){stream.close();stream=null;}if(poll){clearInterval(poll);poll=null;}if(cpuTimer){clearTimeout(cpuTimer);cpuTimer=null;}}
+function goHome(){endShownKey='';stopNetwork();game=null;view=null;mode=null;selected=[];session=null;localCurtain=false;closeModal();screen('menu');$('#network-indicator').textContent='OFFLINE';}
+function startOffline(kind,difficulty){endShownKey='';stopNetwork();mode=kind;game=E.makeGame(kind,difficulty||'standard');selected=[];localCurtain=kind==='local';session=null;closeModal();screen('game');update();scheduleCpu();}
+function cpuMenu(){modal('<h2>CPUの難易度</h2><p>CPUの強さによってカードの排出率は変わりません。</p><div class="modal-buttons"><button class="btn" data-d="easy">やさしい</button><button class="btn primary" data-d="standard">ふつう</button><button class="btn" data-d="hard">強い</button></div>'+baseButtons());$('#modal-cancel').onclick=closeModal;document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>startOffline('cpu',b.dataset.d));}
+async function httpApi(path,data=null,base=serverUrl){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),75000);
+  try{const res=await fetch(base+path,{method:data===null?'GET':'POST',headers:{'Content-Type':'application/json'},body:data===null?undefined:JSON.stringify(data),signal:controller.signal,cache:'no-store'});
+    let result=await res.json().catch(()=>({}));if(!res.ok||result.error)throw Error(result.error||'通信に失敗しました（'+res.status+'）');return result;
+  }finally{clearTimeout(timer);}
+}
+function onlineMenu(roomCode){stopNetwork();mode='online';closeModal();screen('menu');
+ modal(`<h2>オンライン対戦</h2><p>友人と同じサーバーを利用して対戦します。</p><label class="form-label" for="server-url">RenderのサーバーURL</label><input class="input" id="server-url" value="${escapeHtml(serverUrl)}" spellcheck="false" autocapitalize="off"><div class="modal-buttons"><button class="btn subtle" id="check-server">接続確認・保存</button></div><hr style="border:0;border-top:1px solid #36506f;margin:19px 0"><button class="btn primary full" id="create-room">新しい部屋を作る</button><label class="form-label" for="join-code">6桁のルームコード</label><input class="input" id="join-code" inputmode="numeric" maxlength="6" placeholder="例：123456" value="${escapeHtml(roomCode||'')}"><div class="modal-buttons"><button class="btn primary" id="join-room">部屋に参加する</button><button class="btn subtle" id="online-cancel">戻る</button></div><p class="notice">無料サーバーは休止後、初回の応答に時間がかかることがあります。</p>`);
+ const save=()=>{let v=$('#server-url').value.trim().replace(/\/$/,'');if(!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(v))throw Error('https://から始まるRenderのURLを入力してください。');serverUrl=v;localStorage.setItem('nabla_v3_server',v);return v;};
+ $('#online-cancel').onclick=()=>{closeModal();screen('menu');};
+ $('#check-server').onclick=async()=>{try{let v=save();$('#check-server').disabled=true;let r=await httpApi('/api/health',null,v);if(!String(r.version||'').startsWith('3.'))throw Error('サーバーがV2のままです。Render側にもV3ファイルを反映してください。');toast('V3サーバーと接続できました。');}catch(e){toast(e.message)}finally{$('#check-server').disabled=false}};
+ $('#create-room').onclick=async()=>{try{save();$('#create-room').disabled=true;const health=await httpApi('/api/health');if(!String(health.version||'').startsWith('3.'))throw Error('Render側はまだV2です。V3のserver.jsとgame.jsを公開してください。');const r=await httpApi('/api/create',{});attachRoom(r);toast('部屋を作成しました。');}catch(e){toast(e.message)}finally{const b=$('#create-room');if(b)b.disabled=false}};
+ $('#join-room').onclick=async()=>{try{save();let code=$('#join-code').value.trim();if(!/^\d{6}$/.test(code))throw Error('6桁のルームコードを入力してください。');$('#join-room').disabled=true;let health=await httpApi('/api/health');if(!String(health.version||'').startsWith('3.'))throw Error('Render側はまだV2です。V3の更新を確認してください。');let r=await httpApi('/api/join',{code});attachRoom(r);toast('対戦に参加しました。');}catch(e){toast(e.message)}finally{const b=$('#join-room');if(b)b.disabled=false}};
+}
+function attachRoom(r){endShownKey='';stopNetwork();mode='online';session={code:r.code,seat:r.seat,token:r.token};sessionStorage.setItem('nabla_v3_session',JSON.stringify({...session,base:serverUrl}));view=r.state;selected=[];closeModal();screen('game');$('#network-indicator').textContent='ONLINE';update();
+ stream=new EventSource(`${serverUrl}/api/events?code=${encodeURIComponent(session.code)}&token=${encodeURIComponent(session.token)}`);
+ stream.addEventListener('state',ev=>{try{view=JSON.parse(ev.data);update();}catch(e){console.warn(e)}});
+ stream.onerror=()=>{$('#network-indicator').textContent='再接続中';};
+ stream.onopen=()=>{$('#network-indicator').textContent='ONLINE';};
+ poll=setInterval(async()=>{if(mode!=='online'||!session)return;try{const r=await httpApi('/api/reconnect',{code:session.code,token:session.token});view=r.state;update();}catch(_){/* SSE retries automatically */}},9000);
+}
+function getView(){if(mode==='online')return view;if(!game)return null;return E.publicView(game,mode==='local'?game.turn:0);}
+function getSeat(){return mode==='online'?session?.seat??0:mode==='local'?game?.turn??0:0;}
+function canAct(v){return !!v&&v.status==='playing'&&v.turn===getSeat()&&!busy&&!localCurtain;}
+function syncView(){if(mode!=='online'&&game)view=getView();}
+function textField(t){return escapeHtml(E.exprText(t));}
+function field(owner,can){let v=view;if(!v)return '';return v.boards[owner].map(b=>{
+ const expr=textField(b.expr),valid=can&&selected.length&&selectionReady()&&selectedType()!=='base'&&selectedType()!=='all';
+ return `<button class="func ${valid?'target':''}" data-owner="${owner}" data-id="${b.id}" type="button" aria-label="${expr}を対象にする"><span class="expr">${expr}</span><span class="strength">強さ ${E.score(b.expr)}点</span></button>`;
+ }).join('')||'<div class="empty">基底なし</div>';}
+function selectedType(){if(!view||!selected.length)return '';const list=selected.map(i=>E.CARDS[view.hand[i]]?.type);
+ if(list.length===2)return list.includes('operator')&&list.includes('base')?'pair':'invalid';return list[0]||'';}
+function selectionReady(){let t=selectedType();return !!t&&t!=='invalid'&&t!=='operator';}
+function selectCard(i){if(!canAct(view))return;let next=selected.includes(i)?selected.filter(n=>n!==i):[...selected,i];
+ if(next.length>2)next=[i];
+ if(next.length===2){const pair=next.map(n=>E.CARDS[view.hand[n]]?.type);if(!(pair.includes('operator')&&pair.includes('base')))next=[i];}
+ selected=next;update();}
+function cardList(v,can){return v.hand.map((k,i)=>{const c=E.CARDS[k];return `<button type="button" class="hand-card ${selected.includes(i)?'chosen':''} ${can?'':'dim'}" data-hand="${i}" ${can?'':'disabled'} title="${escapeHtml(c.name)}"><span class="symbol">${escapeHtml(c.symbol)}</span><span class="card-title">${escapeHtml(c.name)}</span></button>`;}).join('');}
+function backCards(count){let shown=Math.min(count,30),h=Array.from({length:shown},()=>'<div class="card-back" aria-label="非公開のカード">∇</div>').join('');return h+(count>30?`<div class="chip">＋${count-30}枚</div>`:'');}
+function actionButtons(v,can){const target=$('#action-buttons');target.innerHTML='';const t=selectedType();if(!can)return;
+ if(t==='base'||t==='all'){
+  target.append(button('自分の場に使用',()=>perform({indexes:selected.slice(),owner:getSeat(),targetId:null}),'btn primary mini'));
+  target.append(button('相手の場に使用',()=>perform({indexes:selected.slice(),owner:1-getSeat(),targetId:null}),'btn mini'));
+ } else if(t==='operator')target.append(document.createTextNode('基底追加カードをもう1枚選んでください。'));
+ else if(t==='single'||t==='pair')target.append(document.createTextNode('上または下の場にある対象の関数をタップしてください。'));
+ else target.append(document.createTextNode('手札からカードを選択してください。'));
+}
+function formatLog(l,short=false){const used=Array.isArray(l.used)&&l.used.length?l.used.map(k=>E.CARDS[k]?.name||k).join('＋'):'強制ドロー／パス';
+ return `<div class="log"><div class="log-head"><span>ターン${l.turn} ｜ プレイヤー${l.seat+1}</span><span class="badge">${escapeHtml(used)}</span></div><div class="log-detail">${escapeHtml(l.note||'')}${l.after?'\n'+escapeHtml(l.after):''}${l.removed?.length?'\n3項制限で削除：'+escapeHtml(l.removed.join('、')):''}${!short&&l.more?'\n'+escapeHtml(l.more):''}</div></div>`;
+}
+function renderEnd(v){const seat=getSeat();const msg=v.winner==='draw'?'引き分け':v.winner===seat?'勝利！':'敗北';let reason=escapeHtml(v.finishReason||'対戦終了');
+ const actions=mode==='online'?'<button class="btn primary" id="rematch-btn">再戦を申し込む</button>':'<button class="btn primary" id="again-btn">同じモードでもう一度</button>';
+ modal(`<h2>${msg}</h2><p>${reason}</p><div class="statusbox">プレイヤー1：${v.scores[0]}点　／　プレイヤー2：${v.scores[1]}点</div><div class="modal-buttons">${actions}<button class="btn subtle" id="end-menu">メニューに戻る</button><button class="btn subtle" id="end-close">盤面を見る</button></div>`);
+ $('#end-menu').onclick=goHome;$('#end-close').onclick=closeModal;
+ if(mode==='online')$('#rematch-btn').onclick=async()=>{try{let r=await httpApi('/api/rematch',{code:session.code,token:session.token});toast(r.restarted?'再戦開始':'相手の再戦申請を待っています');if(r.restarted)closeModal();}catch(e){toast(e.message)}};
+ else $('#again-btn').onclick=()=>startOffline(mode,game?.difficulty);
+}
+let endShownKey='';
+function update(){syncView();const v=view;if(!v||!$('#game-screen').classList.contains('active'))return;
+ const seat=getSeat(),opp=1-seat,active=canAct(v),onTurn=v.turn===seat,waiting=v.status==='waiting';
+ $('#mode-label').textContent=mode==='cpu'?'CPU対戦':mode==='local'?'ローカル対戦':'オンライン対戦';
+ $('#turn-label').textContent=`${v.turnCount} / ${v.maxTurns}ターン`;
+ $('#acting-label').textContent=waiting?'対戦相手の参加待ち':v.status==='ended'?'対戦終了':`プレイヤー${v.turn+1}の手番`;
+ $('#battle-status').textContent=waiting?'参加待ち':v.status==='ended'?'終了':onTurn?'あなたのターン':'相手のターン';
+ $('#room-label').style.display=mode==='online'?'':'none';
+ if(mode==='online')$('#room-label').textContent=`ルーム ${session.code}`;
+ $('#opponent-name').textContent=mode==='cpu'?'CPU':`プレイヤー${opp+1}`;
+ $('#own-name').textContent=mode==='cpu'?'あなた':`プレイヤー${seat+1}（あなた）`;
+ $('#opponent-score').textContent=v.scores[opp];$('#own-score').textContent=v.scores[seat];
+ $('#opponent-cards-label').textContent=`手札 ${v.handCounts[opp]}枚（非公開）`;
+ $('#own-cards-label').textContent=`手札 ${v.handCounts[seat]}枚`;
+ $('#opponent-hands').innerHTML=backCards(v.handCounts[opp]);
+ $('#opponent-field').innerHTML=field(opp,active);$('#own-field').innerHTML=field(seat,active);
+ $('#own-hands').innerHTML=localCurtain?'':cardList(v,active);
+ $('#action-hint').textContent=waiting?'ルームコードを相手に伝えて、参加してもらってください。':v.status==='ended'?'対戦が終了しました。':localCurtain?'手札を隠しています。交代後、次のプレイヤーだけが手札を確認してください。':active?'使用するカードを選び、対象の関数をタップしてください。':'相手の操作を待っています。';
+ $('#selection-display').innerHTML=selected.length?selected.map(i=>`<span class="chip">${escapeHtml(E.CARDS[v.hand[i]]?.name||'カード')}</span>`).join(''):'<span class="small">未選択</span>';
+ actionButtons(v,active);
+ if(waiting&&mode==='online'){
+    let link=location.origin+location.pathname+'?room='+session.code;
+    $('#action-buttons').innerHTML='';
+    $('#action-buttons').append(button('ルームコードをコピー',()=>copy(session.code),'btn primary mini'));
+    $('#action-buttons').append(button('招待リンクをコピー',()=>copy(link),'btn mini'));
+ }
+ if(localCurtain){$('#action-buttons').innerHTML='';$('#action-buttons').append(button(`プレイヤー${v.turn+1}：手札を表示`,()=>{localCurtain=false;update()},'btn primary'));}
+ if(v.last)$('#last-action').innerHTML=formatLog(v.last,true);
+ else $('#last-action').textContent='カードの使用履歴がここに表示されます。';
+ $('#log-items').innerHTML=logsOpen?(v.logs.length?[...v.logs].reverse().map(l=>formatLog(l)).join(''):'<div class="empty">まだ行動履歴がありません。</div>'):'';
+ document.querySelectorAll('[data-hand]').forEach(el=>el.onclick=()=>selectCard(Number(el.dataset.hand)));
+ document.querySelectorAll('.func[data-owner]').forEach(el=>el.onclick=()=>{
+   if(!active||!selectionReady()||selectedType()==='base'||selectedType()==='all')return;
+   perform({indexes:selected.slice(),owner:Number(el.dataset.owner),targetId:Number(el.dataset.id)});
+ });
+ if(v.status==='ended'){
+   const k=mode+':'+(session?.code||'local')+':'+v.turnCount+':'+v.winner;
+   if(endShownKey!==k){endShownKey=k;renderEnd(v);}
+ }
+}
+async function perform(action){if(!canAct(view))return;busy=true;
+ try{if(mode==='online')await httpApi('/api/move',{code:session.code,token:session.token,action});
+  else {const r=E.move(game,getSeat(),action);if(r.error)throw Error(r.error);}
+  selected=[];if(mode==='local')localCurtain=true;update();scheduleCpu();
+ }catch(e){toast(e.message||'操作できません');}finally{busy=false;update();}
+}
+function scheduleCpu(){if(mode!=='cpu'||!game||game.status!=='playing'||game.turn!==1)return;
+ clearTimeout(cpuTimer);cpuTimer=setTimeout(()=>{if(mode!=='cpu'||!game||game.status!=='playing'||game.turn!==1)return;E.cpuMove(game);update();scheduleCpu();},580);
+}
+async function copy(s){try{await navigator.clipboard.writeText(s);toast('コピーしました');}catch(_){prompt('長押ししてコピーしてください',s);}}
+$('#menu-cpu').onclick=cpuMenu;$('#menu-local').onclick=()=>startOffline('local');$('#menu-online').onclick=()=>onlineMenu(new URLSearchParams(location.search).get('room')||'');
+$('#home-btn').onclick=()=>{if(!game&&!session){goHome();return;}modal('<h2>メニューに戻りますか？</h2><p>現在の対戦画面を閉じます。オンラインの部屋はサーバー上に残る場合があります。</p><div class="modal-buttons"><button class="btn danger" id="confirm-home">戻る</button><button class="btn subtle" id="cancel-home">キャンセル</button></div>');$('#confirm-home').onclick=goHome;$('#cancel-home').onclick=closeModal;};
+$('#clear-selection').onclick=()=>{selected=[];update()};$('#toggle-logs').onclick=()=>{logsOpen=!logsOpen;update()};
+// If a friend opens a shared link, preload its room code.
+const requestedRoom=new URLSearchParams(location.search).get('room');if(requestedRoom&&/^\d{6}$/.test(requestedRoom))onlineMenu(requestedRoom);
+// Restore a still-valid room on refresh without exposing another player's private hand.
+else{try{const saved=JSON.parse(sessionStorage.getItem('nabla_v3_session')||'null');if(saved&&saved.base&&saved.code&&saved.token){serverUrl=saved.base;httpApi('/api/reconnect',{code:saved.code,token:saved.token}).then(attachRoom).catch(()=>sessionStorage.removeItem('nabla_v3_session'));}}catch(_){}}
+</script>
+</body>
+</html>
